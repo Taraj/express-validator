@@ -85,6 +85,26 @@ describe('middleware', function () {
             req.getValidatedBody(TestImplementationWithtSchema)
         }).to.throw(Error);
     });
+    it('getValidatedBody should not throw error on additional value when allowUnknown: true', function () {
+        var middleware = expressValidator({
+            allowUnknown: true
+        });
+        var req = {
+            body: {
+                personId: 5,
+                additionalValue: 10
+            },
+            params: {
+                id: 3
+            }
+        };
+
+        middleware(req, null, function () { })
+
+        chai.expect(function () {
+            req.getValidatedBody(TestImplementationWithtSchema)
+        }).to.not.throw(Error);
+    });
 
     it('getValidatedBody should throw error on incorrect value', function () {
         var middleware = expressValidator();

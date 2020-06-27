@@ -2,7 +2,7 @@
 // Project: express-validator
 // Definitions by: Taraj <https://github.com/Taraj>
 
-import { SchemaMap, AnySchema } from '@hapi/joi';
+import { SchemaMap, AnySchema, ValidationOptions } from '@hapi/joi';
 import { RequestHandler } from 'express';
 export * as Joi from '@hapi/joi';
 
@@ -17,7 +17,7 @@ declare global {
 
 export abstract class AbstractValidatedDto {
     protected abstract getSchema(): SchemaMap;
-    public validate(): void;
+    public validate(options: ValidationOptions): void;
 }
 
-export default function (): () => RequestHandler;
+export default function (options: ValidationOptions): () => RequestHandler;
