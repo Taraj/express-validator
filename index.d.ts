@@ -16,7 +16,7 @@ declare global {
 }
 
 export abstract class AbstractValidatedDto {
-    protected abstract get schema(): SchemaMap;
+    protected abstract get getSchema(): SchemaMap;
     public validate(): void;
 }
 

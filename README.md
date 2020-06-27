@@ -74,8 +74,7 @@ export const ActorController = (app: Application) => {
 
 ```
 ## Validation 
-### AbstractValidatedDto
-All dto's need's to extends this class
+All dto's need's to extends `AbstractValidatedDto` class
 ```Typescript
 abstract class AbstractValidatedDto {
     protected abstract get schema(): SchemaMap;
