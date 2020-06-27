@@ -4,7 +4,8 @@
 
 import { SchemaMap, AnySchema, ValidationOptions } from '@hapi/joi';
 import { RequestHandler } from 'express';
-export * as Joi from '@hapi/joi';
+import Joi = require('@hapi/joi');
+
 
 declare global {
     namespace Express {
@@ -20,4 +21,6 @@ export abstract class AbstractValidatedDto {
     public validate(options: ValidationOptions): void;
 }
 
-export default function (options: ValidationOptions): () => RequestHandler;
+export default function (options?: ValidationOptions): () => RequestHandler;
+
+export { Joi };
