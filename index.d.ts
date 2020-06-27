@@ -2,9 +2,9 @@
 // Project: express-validator
 // Definitions by: Taraj <https://github.com/Taraj>
 
-import { SchemaMap, AnySchema } from 'joi';
+import { SchemaMap, AnySchema } from '@hapi/joi';
 import { RequestHandler } from 'express';
-export * as Joi from 'joi';
+export * as Joi from '@hapi/joi';
 
 declare global {
     namespace Express {
