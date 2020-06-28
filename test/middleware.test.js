@@ -26,6 +26,16 @@ describe('middleware', function () {
         chai.expect(req.getValidatedParam).to.be.a('function');
     });
 
+    it('should add getValidatedQuery to request', function () {
+
+        var middleware = expressValidator();
+        var req = {};
+
+        middleware(req, null, function () { })
+
+        chai.expect(req.getValidatedQuery).to.be.a('function');
+    });
+
     it('getValidatedBody should return value', function () {
 
         var middleware = expressValidator();
@@ -67,6 +77,31 @@ describe('middleware', function () {
         }).to.not.throw(Error);
     });
 
+    it('getValidatedQuery should return value', function () {
+
+        var middleware = expressValidator();
+        var req = {
+            body: {
+                personId: 5
+            },
+            params: {
+                id: 3
+            },
+            query: {
+                userId: 3
+            }
+        };
+
+        middleware(req, null, function () { })
+
+        chai.expect(function () {
+            var id = req.getValidatedQuery('userId', expressValidator.Joi.number().integer())
+            if (id == null || id != 3) {
+                throw new Error('Invalid response.')
+            }
+        }).to.not.throw(Error);
+    });
+
     it('getValidatedBody should throw error on additional value', function () {
         var middleware = expressValidator();
         var req = {
@@ -85,6 +120,7 @@ describe('middleware', function () {
             req.getValidatedBody(TestImplementationWithtSchema)
         }).to.throw(Error);
     });
+
     it('getValidatedBody should not throw error on additional value when allowUnknown: true', function () {
         var middleware = expressValidator({
             allowUnknown: true
@@ -103,6 +139,31 @@ describe('middleware', function () {
 
         chai.expect(function () {
             req.getValidatedBody(TestImplementationWithtSchema)
+        }).to.not.throw(Error);
+    });
+
+    it('getValidatedBody should strip additional value when stripUnknown: true', function () {
+        var middleware = expressValidator({
+            stripUnknown: true
+        });
+        var req = {
+            body: {
+                personId: 5,
+                additionalValue: 10
+            },
+            params: {
+                id: 3
+            }
+        };
+
+        middleware(req, null, function () { })
+
+        chai.expect(function () {
+            var dto = req.getValidatedBody(TestImplementationWithtSchema)
+            if (dto.additionalValue) {
+                throw Error('Invalid response.')
+            }
+
         }).to.not.throw(Error);
     });
 
@@ -140,6 +201,30 @@ describe('middleware', function () {
         }).to.throw(Error);
     });
 
+    it('getValidatedQuery should throw error on incorrect value', function () {
+
+        var middleware = expressValidator();
+        var req = {
+            body: {
+                personId: 5
+            },
+            params: {
+                id: 3
+            },
+            query: {
+                userId: 'abc'
+            }
+        };
+
+        middleware(req, null, function () { })
+
+        chai.expect(function () {
+            var id = req.getValidatedQuery('userId', expressValidator.Joi.number().integer())
+            if (id == null || id != 3) {
+                throw new Error('Invalid response.')
+            }
+        }).to.throw(Error);
+    });
 });
 
 
