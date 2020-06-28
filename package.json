@@ -1,7 +1,7 @@
 {
   "name": "@taraj/express-validator",
-  "version": "1.0.10",
-  "description": "Lightweight express validator.",
+  "version": "1.0.12",
+  "description": "Lightweight & powerful express validator designed for Typescript.",
   "main": "./lib",
   "scripts": {
     "test": "mocha"

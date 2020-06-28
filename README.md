@@ -1,5 +1,5 @@
 # Express Validator
-Lightweight express validator.
+Lightweight & powerful express validator designed for Typescript.
 ## Install
     $ npm i @taraj/express-validator
 ## Basic usage
