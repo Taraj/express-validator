@@ -219,12 +219,55 @@ describe('middleware', function () {
         middleware(req, null, function () { })
 
         chai.expect(function () {
-            var id = req.getValidatedQuery('userId', expressValidator.Joi.number().integer())
+            req.getValidatedQuery('userId', expressValidator.Joi.number().integer())
+        }).to.throw(Error);
+    });
+
+    it('getValidatedQuery should return default value', function () {
+
+        var middleware = expressValidator();
+        var req = {
+            body: {
+                personId: 5
+            },
+            params: {
+                id: 3
+            },
+            query: {
+                userId: 'abc'
+            }
+        };
+
+        middleware(req, null, function () { })
+
+        chai.expect(function () {
+            var id = req.getValidatedQuery('userId', expressValidator.Joi.number().integer(), 3)
             if (id == null || id != 3) {
                 throw new Error('Invalid response.')
             }
-        }).to.throw(Error);
+        }).to.not.throw(Error);
     });
+
+    it('getValidatedParam should return default value', function () {
+        var middleware = expressValidator();
+        var req = {
+            body: {
+                personId: 'abcd'
+            },
+            params: {
+                id: 'abcd'
+            }
+        };
+
+        middleware(req, null, function () { })
+        chai.expect(function () {
+           var id = req.getValidatedParam('id', expressValidator.Joi.number().integer(), 3)
+            if (id == null || id != 3) {
+                throw new Error('Invalid response.')
+            }
+        }).to.not.throw(Error);
+    });
+    
 });
 
 
