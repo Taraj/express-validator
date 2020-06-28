@@ -20,7 +20,7 @@ declare global {
 
             /**
              * Validates request parm value against a schema, returns valid value,
-             *  if validation fails throws error or return @param defaultValue if provided.
+             * if validation fails throws error or return @param defaultValue if provided.
              * 
              * @param parmName - the name of param.
              * @param schema - the schema object.
@@ -51,7 +51,7 @@ export abstract class AbstractValidatedDto {
      * Method returning `Joi.SchemaMap` to validate object
      */
     protected abstract getSchema(): SchemaMap;
-    
+
     /**
      * Method called by middleware when validate. 
      * Should throw error when object is invalid or if object is valid return it

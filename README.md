@@ -45,7 +45,7 @@ export class NewActorDto extends AbstractValidatedDto {
 ```Typescript
 import { Response, Application, Router, NextFunction, Request } from 'express';
 import { NewActorDto } from './dto/newActor.dto';
-import { Joi } from 'express-validator'
+import { Joi } from 'express-validator';
 import actorService from './actor.service';
 
 
