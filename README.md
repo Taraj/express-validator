@@ -32,7 +32,7 @@ export class NewActorDto extends AbstractValidatedDto {
   personId!: number;
   movieId!: number;
 
-  protected get schema(): Joi.SchemaMap {
+  protected getSchema(): Joi.SchemaMap {
     return {
       name: Joi.string().required().max(100),
       personId: Joi.number().integer().required(),
@@ -76,17 +76,17 @@ export const ActorController = (app: Application) => {
 ## Validation 
 All dto's need's to extends `AbstractValidatedDto` class
 ```Typescript
-abstract class AbstractValidatedDto {
-    protected abstract get schema(): SchemaMap;
-    public validate(): void;
+export abstract class AbstractValidatedDto {
+    protected abstract getSchema(): SchemaMap;
+    public validate(options: ValidationOptions): any;
 }
 ```
-if needed you can override `validate` method and provide own validation strategy but by default you only need to implement `schema`.
-All available constraint for `schema` you can find in `@hapi/joi` documentation (https://hapi.dev/module/joi/).
+if needed you can override `validate()` method and provide own validation strategy but by default you only need to implement `getSchema()`.
+All available constraint for `getSchema()` you can find in `@hapi/joi` documentation (https://hapi.dev/module/joi/).
 
 Example implementation can look like this:
 ```Typescript
-protected get schema(): Joi.SchemaMap {
+protected getSchema(): Joi.SchemaMap {
       return {
           firstName: Joi.string().required().max(100),
           lastName: Joi.string().required().max(100),
@@ -95,7 +95,7 @@ protected get schema(): Joi.SchemaMap {
       }
   }
 ```
-**IMPORTANT:** Object need to be **exactly** the same as schema because if it have any additional field error will be throwed.
+**IMPORTANT:** Object need to be **exactly** the same as schema because if it have any additional field error will be throwed. (can be changed in global settings)
 
 Example class that override `validate` method
 ```Typescript
@@ -104,16 +104,54 @@ export class NewActorDto extends AbstractValidatedDto {
   personId!: number;
   movieId!: number;
 
-  protected get schema(): Joi.SchemaMap {
+  protected getSchema(): Joi.SchemaMap {
     return {}
   }
 
-  public validate() {
+  public validate(options: Joi.ValidationOptions): NewActorDto {
     if (this.name == '3') {
       throw Error('Custom validation.')
     }
+    return this;
   }
 }
+```
+## Global settings
+You can set Joi validation options when register middleware.
+```Typescript
+app.use(expressValidator({
+    stripUnknown: false,
+    abortEarly: false
+}));
+```
+## List of function added to `req`
+```Typescript
+/**
+* Validates body against a schema, returns valid object, and throws if validation fails.
+* 
+* @param type - the expected class (must override AbstractValidatedDto)
+*/
+getValidatedBody: <T extends AbstractValidatedDto>(type: { new(): T; }) => T;
+
+/**
+* Validates request parm value against a schema, returns valid value,
+* if validation fails throws error or return @param defaultValue if provided.
+* 
+* @param parmName - the name of param.
+* @param schema - the schema object.
+* @param defaultValue - optional value returned if validation fails
+*/
+getValidatedParam: (paramName: string, schema: AnySchema, defaultValue?: any) => any;
+
+/**
+* Validates request query value against a schema, returns valid value,
+* if validation fails throws error or return @param defaultValue if provided.
+* 
+* @param queryName  - the name of query.
+* @param schema - the schema object.
+* @param defaultValue - optional value returned if validation fails
+*/
+getValidatedQuery: (queryName: string, schema: AnySchema, defaultValue?: any) => any;
 ```
 ## License
 
