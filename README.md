@@ -74,7 +74,7 @@ export const ActorController = (app: Application) => {
 
 ```
 ## Validation 
-All dto's need's to extends `AbstractValidatedDto` class
+All dtos need to extend `AbstractValidatedDto` class
 ```Typescript
 export abstract class AbstractValidatedDto {
     protected abstract getSchema(): SchemaMap;
@@ -95,7 +95,7 @@ protected getSchema(): Joi.SchemaMap {
       }
   }
 ```
-**IMPORTANT:** Object need to be **exactly** the same as schema because if it have any additional field error will be throwed. (can be changed in global settings)
+**IMPORTANT:** Object needs to be **exactly** the same as schema because if it have any additional field, error will be throwed. (can be changed in global settings)
 
 Example class that override `validate` method
 ```Typescript
@@ -117,7 +117,7 @@ export class NewActorDto extends AbstractValidatedDto {
 }
 ```
 ## Global settings
-You can set Joi validation options when register middleware.
+You can set Joi validation options when registering middleware.
 ```Typescript
 app.use(expressValidator({
     stripUnknown: false,
@@ -127,17 +127,17 @@ app.use(expressValidator({
 ## List of function added to `req`
 ```Typescript
 /**
-* Validates body against a schema, returns valid object, and throws if validation fails.
+* Validates request body against a schema, returns valid object, and throws if validation fails.
 * 
 * @param type - the expected class (must override AbstractValidatedDto)
 */
 getValidatedBody: <T extends AbstractValidatedDto>(type: { new(): T; }) => T;
 
 /**
-* Validates request parm value against a schema, returns valid value,
+* Validates request param value against a schema, returns valid value,
 * if validation fails throws error or return @param defaultValue if provided.
 * 
-* @param parmName - the name of param.
+* @param paramName - the name of param.
 * @param schema - the schema object.
 * @param defaultValue - optional value returned if validation fails
 */

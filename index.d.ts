@@ -1,4 +1,4 @@
-// Type definitions for express-validator 1.0.7
+// Type definitions for express-validator 1.1.0
 // Project: express-validator
 // Definitions by: Taraj <https://github.com/Taraj>
 
@@ -12,17 +12,17 @@ declare global {
         interface Request {
 
             /**
-             * Validates body against a schema, returns valid object, and throws if validation fails.
+             * Validates request body against a schema, returns valid object, and throws if validation fails.
              * 
              * @param type - the expected class (must override AbstractValidatedDto)
              */
             getValidatedBody: <T extends AbstractValidatedDto>(type: { new(): T; }) => T;
 
             /**
-             * Validates request parm value against a schema, returns valid value,
+             * Validates request param value against a schema, returns valid value,
              * if validation fails throws error or return @param defaultValue if provided.
              * 
-             * @param parmName - the name of param.
+             * @param paramName - the name of param.
              * @param schema - the schema object.
              * @param defaultValue - optional value returned if validation fails
              */
