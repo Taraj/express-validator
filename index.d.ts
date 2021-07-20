@@ -1,10 +1,10 @@
-// Type definitions for express-validator 1.1.0
+// Type definitions for express-validator 1.1.2
 // Project: express-validator
 // Definitions by: Taraj <https://github.com/Taraj>
 
-import { SchemaMap, AnySchema, ValidationOptions } from '@hapi/joi';
+import { SchemaMap, AnySchema, ValidationOptions } from 'joi';
 import { RequestHandler } from 'express';
-import Joi = require('@hapi/joi');
+import Joi = require('joi');
 
 
 declare global {

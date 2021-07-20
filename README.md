@@ -82,7 +82,7 @@ export abstract class AbstractValidatedDto {
 }
 ```
 if needed you can override `validate()` method and provide own validation strategy but by default you only need to implement `getSchema()`.
-All available constraint for `getSchema()` you can find in `@hapi/joi` documentation (https://hapi.dev/module/joi/).
+All available constraint for `getSchema()` you can find in `joi` documentation (https://joi.dev/api/?v=17.4.1).
 
 Example implementation can look like this:
 ```Typescript
